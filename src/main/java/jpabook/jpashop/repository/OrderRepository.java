@@ -122,5 +122,15 @@ public class OrderRepository {
          * - 위 예시의 경우 요구되는 페이징 기준은 Order이지만, 실질적인 페이징 기준은 OrderItem과 다름 없기 때문이다.
          */
     }
+
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        return em.createQuery(
+                "select o from Order o" +
+                        " join fetch o.member m" +
+                        " join fetch o.delivery d", Order.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
 }
 
